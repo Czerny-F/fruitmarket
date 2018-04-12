@@ -1,0 +1,6 @@
+Django
+django-extensions
+Werkzeug
+ipython
+flake8
+django-debug-toolbar
