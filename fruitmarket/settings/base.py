@@ -14,6 +14,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'fruitmarket.apps.products',
 ]
 
 MIDDLEWARE = [
