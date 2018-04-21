@@ -22,8 +22,13 @@ class FruitSales(EditableModel):
     def __str__(self):
         return _("%(fruit)s sold at %(sold_at)s") % {
             'fruit': self.fruit,
-            'sold_at': self.sold_at.strftime('%F %R'),
+            'sold_at': self.sold_at_astz.strftime('%F %R'),
         }
+
+    @property
+    def sold_at_astz(self):
+        tz = timezone.get_current_timezone()
+        return self.sold_at.astimezone(tz)
 
 
 @receiver(pre_save, sender=FruitSales)
