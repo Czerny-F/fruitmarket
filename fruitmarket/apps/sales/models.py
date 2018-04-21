@@ -20,7 +20,10 @@ class FruitSales(EditableModel):
         ordering = ['-sold_at']
 
     def __str__(self):
-        return '{self.fruit.name}: {self.sold_at}'.format(self=self)
+        return _("%(fruit)s sold at %(sold_at)s") % {
+            'fruit': self.fruit,
+            'sold_at': self.sold_at.strftime('%F %R'),
+        }
 
 
 @receiver(pre_save, sender=FruitSales)
