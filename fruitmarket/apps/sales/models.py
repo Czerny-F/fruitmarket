@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from fruitmarket.core.models import EditableModel
 from fruitmarket.apps.products.models import Fruit
+from .managers import FruitSalesManager
 
 
 class FruitSales(EditableModel):
@@ -13,6 +14,8 @@ class FruitSales(EditableModel):
     amount = models.PositiveIntegerField(_("amount"), editable=False)
     sold_at = models.DateTimeField(_("datetime sold"), default=timezone.now,
                                    db_index=True)
+
+    objects = FruitSalesManager()
 
     class Meta:
         verbose_name = _("sale of fruit")
@@ -29,6 +32,10 @@ class FruitSales(EditableModel):
     def sold_at_astz(self):
         tz = timezone.get_current_timezone()
         return self.sold_at.astimezone(tz)
+
+    @classmethod
+    def total(cls) -> int:
+        return cls.objects.total()
 
 
 @receiver(pre_save, sender=FruitSales)
