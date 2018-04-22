@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{{ block.super }} : Statistics{% endblock %}
+
+{% block content %}
+    <h2>{% trans "Fruit sales statistics" %}</h2>
+    <div class="type">
+      <h3>{% trans "Total" %}</h3>
+      <p>{{ total }}{% trans "Yen" %}</p>
+    </div>
+    <div class="type">
+      <h3>{% trans "Monthly" %}</h3>
+      <div class="table"></div>
+    </div>
+    <div class="type">
+      <h3>{% trans "Daily" %}</h3>
+      <div class="table"></div>
+    </div>
+{% endblock %}
