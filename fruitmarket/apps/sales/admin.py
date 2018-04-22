@@ -6,3 +6,4 @@ from .models import FruitSales
 class FruitSalesAdmin(admin.ModelAdmin):
     readonly_fields = ('amount', 'updated_at', 'created_at')
     list_display = ('fruit', 'quantity', 'amount', 'sold_at')
+    list_filter = ('sold_at',)
