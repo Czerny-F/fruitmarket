@@ -4,6 +4,6 @@ from . import views
 app_name = 'sales'
 urlpatterns = [
     path('stats/', include(([
-        path('', views.FruitSalesStats.as_view(), name='overview'),
+        path('', views.FruitSalesStatsOverview.as_view(), name='overview'),
     ], 'stats'))),
 ]
