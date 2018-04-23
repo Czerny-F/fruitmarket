@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.urls import reverse
 from fruitmarket.apps.products.tests import create_fruits
 from .models import FruitSales
 
@@ -8,6 +9,7 @@ def create_fruitsales(cls):
     cls.blueberry_sale = FruitSales.objects.create(fruit=cls.blueberry, quantity=3)
     cls.lemon_sale = FruitSales.objects.create(fruit=cls.lemon, quantity=3)
     cls.apple_sale = FruitSales.objects.create(fruit=cls.apple, quantity=3)
+    cls.apple_sale_alt = FruitSales.objects.create(fruit=cls.apple, quantity=2)
 
 
 class FruitSalesTest(TestCase):
@@ -38,7 +40,6 @@ class FruitSalesManagerTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         create_fruitsales(cls)
-        cls.apple_sale_alt = FruitSales.objects.create(fruit=cls.apple, quantity=2)
         cls.manager = FruitSales.objects
 
     def setUp(self):
@@ -54,3 +55,19 @@ class FruitSalesManagerTest(TestCase):
     def test_subtotal(self):
         self.assertEqual(self.manager.filter(fruit=self.apple).total(),
                          sum([self.apple_sale.amount, self.apple_sale_alt.amount]))
+
+
+class FruitSalesViewTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        create_fruitsales(cls)
+
+    def setUp(self):
+        pass
+
+    def test_stats(self):
+        with self.assertTemplateUsed('sales/stats.html'):
+            response = self.client.get(reverse('sales:stats:overview'))
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.context['gross'], FruitSales.objects.gross())
