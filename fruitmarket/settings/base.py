@@ -14,6 +14,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'django_nose',
     'fruitmarket.apps.products',
     'fruitmarket.apps.sales',
 ]
@@ -85,4 +86,15 @@ USE_TZ = True
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
+]
+
+
+# django-nose
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+NOSE_ARGS = [
+    '--verbosity=2',
+    '--rednose',
+    '--nocapture',
 ]

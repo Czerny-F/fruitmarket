@@ -4,3 +4,7 @@ Werkzeug
 ipython
 flake8
 django-debug-toolbar
+nose
+rednose
+coverage
+django-nose
