@@ -3,15 +3,18 @@ from fruitmarket.apps.products.tests import create_fruits
 from .models import FruitSales
 
 
+def create_fruitsales(cls):
+    create_fruits(cls)
+    cls.blueberry_sale = FruitSales.objects.create(fruit=cls.blueberry, quantity=3)
+    cls.lemon_sale = FruitSales.objects.create(fruit=cls.lemon, quantity=3)
+    cls.apple_sale = FruitSales.objects.create(fruit=cls.apple, quantity=3)
+
+
 class FruitSalesTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        create_fruits(cls)
-        cls.blueberry_sale = FruitSales.objects.create(fruit=cls.blueberry,
-                                                       quantity=3)
-        cls.lemon_sale = FruitSales.objects.create(fruit=cls.lemon, quantity=3)
-        cls.apple_sale = FruitSales.objects.create(fruit=cls.apple, quantity=3)
+        create_fruitsales(cls)
 
     def setUp(self):
         pass
@@ -28,3 +31,26 @@ class FruitSalesTest(TestCase):
                          self.lemon.unit_price * self.lemon_sale.quantity)
         self.assertEqual(self.apple_sale.amount,
                          self.apple.unit_price * self.apple_sale.quantity)
+
+
+class FruitSalesManagerTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        create_fruitsales(cls)
+        cls.apple_sale_alt = FruitSales.objects.create(fruit=cls.apple, quantity=2)
+        cls.manager = FruitSales.objects
+
+    def setUp(self):
+        pass
+
+    def test_gross(self):
+        self.assertEqual(self.manager.gross(),
+                         sum([self.blueberry_sale.amount,
+                              self.lemon_sale.amount,
+                              self.apple_sale.amount,
+                              self.apple_sale_alt.amount]))
+
+    def test_subtotal(self):
+        self.assertEqual(self.manager.filter(fruit=self.apple).total(),
+                         sum([self.apple_sale.amount, self.apple_sale_alt.amount]))
