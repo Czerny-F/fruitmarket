@@ -89,6 +89,15 @@ STATICFILES_DIRS = [
 ]
 
 
+# django-extensions
+
+IPYTHON_ARGUMENTS = [
+    '--ext', 'autoreload',
+    '--pprint',
+    '--pdb',
+]
+
+
 # django-nose
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
