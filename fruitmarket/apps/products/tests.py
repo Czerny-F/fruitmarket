@@ -8,7 +8,7 @@ def create_fruits(cls):
     cls.apple = Fruit.objects.create(name='apple', unit_price=90)
 
 
-class FruitTest(TestCase):
+class FruitModelTests(TestCase):
 
     @classmethod
     def setUpTestData(cls):

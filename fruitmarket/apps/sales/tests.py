@@ -12,7 +12,7 @@ def create_fruitsales(cls):
     cls.apple_sale_alt = FruitSales.objects.create(fruit=cls.apple, quantity=2)
 
 
-class FruitSalesTest(TestCase):
+class FruitSalesModelTests(TestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -35,7 +35,7 @@ class FruitSalesTest(TestCase):
                          self.apple.unit_price * self.apple_sale.quantity)
 
 
-class FruitSalesManagerTest(TestCase):
+class FruitSalesManagerTests(TestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -57,7 +57,7 @@ class FruitSalesManagerTest(TestCase):
                          sum([self.apple_sale.amount, self.apple_sale_alt.amount]))
 
 
-class FruitSalesViewTest(TestCase):
+class FruitSalesViewTests(TestCase):
 
     @classmethod
     def setUpTestData(cls):
