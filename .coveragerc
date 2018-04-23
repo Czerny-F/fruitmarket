@@ -1,0 +1,14 @@
+[run]
+branch = True
+source =
+    fruitmarket/apps
+    fruitmarket/core
+omit =
+    *__init__.py
+    *apps.py
+    *admin.py
+    *test*
+    *migrations*
+
+[report]
+show_missing = True
