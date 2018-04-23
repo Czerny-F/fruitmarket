@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from fruitmarket.apps.products.tests import create_fruits
 from .models import FruitSales
+from .services import FruitSalesStats
 
 
 def create_fruitsales(cls):
@@ -55,6 +56,30 @@ class FruitSalesManagerTests(TestCase):
     def test_subtotal(self):
         self.assertEqual(self.manager.filter(fruit=self.apple).total(),
                          sum([self.apple_sale.amount, self.apple_sale_alt.amount]))
+
+
+class FruitSalesServiceTests(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        create_fruitsales(cls)
+        cls.qs = FruitSales.objects.all()
+        cls.stats = FruitSalesStats(cls.qs)
+
+    def setUp(self):
+        pass
+
+    def test_total(self):
+        self.assertEqual(self.stats.total, self.qs.total())
+
+    def test_breakdown(self):
+        with self.assertNumQueries(0):
+            breakdown = self.stats.breakdown()
+        with self.assertNumQueries(2):
+            for sub in breakdown:
+                self.assertIn('fruit', sub)
+                self.assertIn('amount', sub)
+                self.assertIn('quantity', sub)
 
 
 class FruitSalesViewTests(TestCase):
