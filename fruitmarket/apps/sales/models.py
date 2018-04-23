@@ -34,8 +34,8 @@ class FruitSales(EditableModel):
         return self.sold_at.astimezone(tz)
 
     @classmethod
-    def total(cls) -> int:
-        return cls.objects.total()
+    def gross(cls) -> int:
+        return cls.objects.gross()
 
 
 @receiver(pre_save, sender=FruitSales)
