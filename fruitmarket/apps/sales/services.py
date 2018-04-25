@@ -1,7 +1,8 @@
-from typing import Iterator, Dict, Any
+from typing import Iterator
 from django.utils.functional import cached_property
 from fruitmarket.apps.products.models import Fruit
 from .managers import FruitSalesQuerySet
+from .models import FruitSalesSet
 
 
 class FruitSalesStats(object):
@@ -21,11 +22,7 @@ class FruitSalesStats(object):
     def fruits(self):
         return Fruit.objects.filter(fruitsales__in=self.queryset).distinct()
 
-    def breakdown(self) -> Iterator[Dict[str, Any]]:
+    def breakdown(self) -> Iterator[FruitSalesSet]:
         for fruit in self.fruits:
             sales = [obj for obj in self.queryset if obj.fruit == fruit]
-            yield {
-                'fruit': fruit,
-                'amount': sum(s.amount for s in sales),
-                'quantity': sum(s.quantity for s in sales),
-            }
+            yield FruitSalesSet(fruit, sales)

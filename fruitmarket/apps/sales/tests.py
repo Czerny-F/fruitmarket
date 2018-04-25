@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from fruitmarket.apps.products.tests import create_fruits
-from .models import FruitSales
+from .models import FruitSales, FruitSalesSet
 from .services import FruitSalesStats
 
 
@@ -77,9 +77,7 @@ class FruitSalesServiceTests(TestCase):
             breakdown = self.stats.breakdown()
         with self.assertNumQueries(2):
             for sub in breakdown:
-                self.assertIn('fruit', sub)
-                self.assertIn('amount', sub)
-                self.assertIn('quantity', sub)
+                self.assertIsInstance(sub, FruitSalesSet)
 
 
 class FruitSalesViewTests(TestCase):
