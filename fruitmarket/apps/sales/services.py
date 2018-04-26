@@ -1,8 +1,23 @@
-from typing import Iterator
+from typing import List, Iterator
 from django.utils.functional import cached_property
 from fruitmarket.apps.products.models import Fruit
 from .managers import FruitSalesQuerySet
-from .models import FruitSalesSet
+from .models import FruitSales
+
+
+class FruitSalesSet(object):
+
+    def __init__(self, fruit: Fruit, sales: List[FruitSales]):
+        self.fruit = fruit
+        self.sales = sales
+
+    @property
+    def total_amount(self) -> int:
+        return sum(s.amount for s in self.sales)
+
+    @property
+    def total_quantity(self) -> int:
+        return sum(s.quantity for s in self.sales)
 
 
 class FruitSalesStats(object):

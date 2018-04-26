@@ -1,8 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
 from fruitmarket.apps.products.tests import create_fruits
-from .models import FruitSales, FruitSalesSet
-from .services import FruitSalesStats
+from .models import FruitSales
+from .services import FruitSalesStats, FruitSalesSet
 
 
 def create_fruitsales(cls):

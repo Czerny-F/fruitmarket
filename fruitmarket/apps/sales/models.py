@@ -1,4 +1,3 @@
-from typing import List
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
@@ -43,18 +42,3 @@ class FruitSales(EditableModel):
 def calculate_amount(sender, instance, **kwargs):
     if not instance.pk:
         instance.amount = instance.fruit.unit_price * instance.quantity
-
-
-class FruitSalesSet(object):
-
-    def __init__(self, fruit: Fruit, sales: List[FruitSales]):
-        self.fruit = fruit
-        self.sales = sales
-
-    @property
-    def total_amount(self) -> int:
-        return sum(s.amount for s in self.sales)
-
-    @property
-    def total_quantity(self) -> int:
-        return sum(s.quantity for s in self.sales)
