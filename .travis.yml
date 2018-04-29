@@ -1,6 +1,7 @@
 language: python
 
-env: DJANGO_SETTINGS_MODULE=fruitmarket.settings.ci
+env:
+  - DJANGO_SETTINGS_MODULE=fruitmarket.settings.ci
 
 cache: pip
 
@@ -10,6 +11,10 @@ python:
 
 install:
   - pip install -r requirements.txt
+  - pip install coveralls
 
 script:
-  - python manage.py test
+  - coverage run manage.py test
+
+after_success:
+  - coveralls
