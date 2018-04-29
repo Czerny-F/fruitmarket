@@ -1,0 +1,15 @@
+language: python
+
+env: DJANGO_SETTINGS_MODULE=fruitmarket.settings.ci
+
+cache: pip
+
+python:
+  - 3.5
+  - 3.6
+
+install:
+  - pip install -r requirements.txt
+
+script:
+  - python manage.py test
