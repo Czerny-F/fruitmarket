@@ -33,10 +33,6 @@ class FruitSales(EditableModel):
         tz = timezone.get_current_timezone()
         return self.sold_at.astimezone(tz)
 
-    @classmethod
-    def gross(cls) -> int:
-        return cls.objects.gross()
-
 
 @receiver(pre_save, sender=FruitSales)
 def calculate_amount(sender, instance, **kwargs):
