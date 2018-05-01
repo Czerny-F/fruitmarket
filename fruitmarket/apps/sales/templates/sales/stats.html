@@ -11,10 +11,56 @@
     </div>
     <div class="type">
       <h3>{% trans "Monthly" %}</h3>
-      <div class="table"></div>
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th>{% trans "month" %}</th>
+              <th>{% trans "sales" %}</th>
+              <th>{% trans "breakdown" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for month in monthly %}
+            <tr>
+              <th>{{ month.date|date:'Y/n' }}</th>
+              <td>{{ month.stats.total }}{% trans "Yen" %}</td>
+              <td>
+                {% for set in month.stats.breakdown %}
+                  {{ set.fruit.name }}: {{ set.total_amount }}{% trans "Yen" %}({{ set.total_quantity }})
+                {% endfor %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
     <div class="type">
       <h3>{% trans "Daily" %}</h3>
-      <div class="table"></div>
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th>{% trans "date" %}</th>
+              <th>{% trans "sales" %}</th>
+              <th>{% trans "breakdown" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for day in daily %}
+            <tr>
+              <th>{{ day.date|date:'Y/n/j' }}</th>
+              <td>{{ day.stats.total }}{% trans "Yen" %}</td>
+              <td>
+                {% for set in day.stats.breakdown %}
+                  {{ set.fruit.name }}: {{ set.total_amount }}{% trans "Yen" %}({{ set.total_quantity }})
+                {% endfor %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
 {% endblock %}
