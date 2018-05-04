@@ -13,7 +13,7 @@
     <h2>{% block h2 %}{% trans page_name|default:"" %}{% endblock %}</h2>
     <div class="breadcrumbs">
       {% block breadcrumbs %}
-      <a href="">TOP</a> &rsaquo; {% trans page_name|default:"" %}
+      <a href="{% url 'index' %}">TOP</a> &rsaquo; {% trans page_name|default:"" %}
       {% endblock %}
     </div><!--//.breadcrumbs-->
     {% endblock %}

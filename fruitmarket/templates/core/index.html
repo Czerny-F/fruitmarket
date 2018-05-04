@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block h2 %}{% trans "management top" %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+    <div class="index">
+      <p class="link">
+        <a href="{% url 'products:fruits:list' %}">{% trans "fruit master data management" %}</a>
+      </p>
+      <p class="link">
+        <a href="{% url 'sales:fruits:list' %}">{% trans "fruit sales management" %}</a>
+      </p>
+      <p class="link">
+        <a href="{% url 'sales:stats:overview' %}">{% trans "sales statistics" %}</a>
+      </p>
+    </div>
+{% endblock %}
