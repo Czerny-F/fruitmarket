@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{{ block.super }} : {% trans "fruit sales management" %}{% endblock %}
+
+{% block header %}
+{% with page_name="fruit sales management" %}
+{{ block.super }}
+{% endwith %}
+{% endblock %}
+
+{% block content %}
+    <div class="table">
+      <table>
+        <thead>
+          <tr>
+            <th>{% trans "fruit" %}</th>
+            <th>{% trans "quantity" %}</th>
+            <th>{% trans "amount" %}</th>
+            <th>{% trans "datetime sold" %}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for obj in object_list %}
+          <tr>
+            <th>{{ obj.fruit }}</th>
+            <td>{{ obj.quantity }}</td>
+            <td>{{ obj.amount }}</td>
+            <td>{{ obj.sold_at }}</td>
+            <td>
+              <a href="">{% trans "edit" %}</a>
+              <a href="">{% trans "delete" %}</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div><!--//.table-->
+    <div class="buttons">
+      <a href="">{% trans "add" %}</a>
+    </div><!--//.buttons-->
+{% endblock %}

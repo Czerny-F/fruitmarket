@@ -3,6 +3,11 @@ from .models import FruitSales
 from .services import FruitSalesStats
 
 
+class FruitSalesList(generic.ListView):
+    model = FruitSales
+    queryset = FruitSales.objects.select_related()
+
+
 class FruitSalesStatsOverview(generic.TodayArchiveView):
     queryset = FruitSales.objects.all()
     date_field = 'sold_at'
