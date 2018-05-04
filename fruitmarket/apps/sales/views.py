@@ -1,4 +1,5 @@
 from django.views import generic
+from django.urls import reverse_lazy
 from .models import FruitSales
 from .services import FruitSalesStats
 
@@ -6,6 +7,12 @@ from .services import FruitSalesStats
 class FruitSalesList(generic.ListView):
     model = FruitSales
     queryset = FruitSales.objects.select_related()
+
+
+class FruitSalesUpdate(generic.UpdateView):
+    model = FruitSales
+    fields = '__all__'
+    success_url = reverse_lazy('sales:fruits:list')
 
 
 class FruitSalesStatsOverview(generic.TodayArchiveView):

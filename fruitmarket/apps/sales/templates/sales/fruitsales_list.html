@@ -29,7 +29,7 @@
             <td>{{ obj.amount }}</td>
             <td>{{ obj.sold_at }}</td>
             <td>
-              <a href="">{% trans "edit" %}</a>
+              <a href="{{ obj.get_absolute_url }}">{% trans "edit" %}</a>
               <a href="">{% trans "delete" %}</a>
             </td>
           </tr>

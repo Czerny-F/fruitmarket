@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from fruitmarket.core.models import EditableModel
@@ -27,6 +28,9 @@ class FruitSales(EditableModel):
             'fruit': self.fruit,
             'sold_at': self.sold_at_astz.strftime('%F %R'),
         }
+
+    def get_absolute_url(self):
+        return reverse('sales:fruits:edit', args=(self.pk,))
 
     @property
     def sold_at_astz(self):
