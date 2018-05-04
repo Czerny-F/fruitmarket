@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from fruitmarket.core.models import EditableModel
 
@@ -18,3 +19,6 @@ class Fruit(EditableModel):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('products:fruits:edit', args=(self.pk,))
