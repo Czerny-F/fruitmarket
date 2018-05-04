@@ -1,14 +1,19 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block title %}{{ block.super }} : Statistics{% endblock %}
+{% block title %}{{ block.super }} : {% trans "sales statistics" %}{% endblock %}
+
+{% block header %}
+{% with page_name="sales statistics" %}
+{{ block.super }}
+{% endwith %}
+{% endblock %}
 
 {% block content %}
-    <h2>{% trans "Fruit sales statistics" %}</h2>
     <div class="type">
       <h3>{% trans "Gross" %}</h3>
       <p>{{ gross }}{% trans "Yen" %}</p>
-    </div>
+    </div><!--//.type-->
     <div class="type">
       <h3>{% trans "Monthly" %}</h3>
       <div class="table">
@@ -34,8 +39,8 @@
             {% endfor %}
           </tbody>
         </table>
-      </div>
-    </div>
+      </div><!--//.table-->
+    </div><!--//.type-->
     <div class="type">
       <h3>{% trans "Daily" %}</h3>
       <div class="table">
@@ -61,6 +66,6 @@
             {% endfor %}
           </tbody>
         </table>
-      </div>
-    </div>
+      </div><!--//.table-->
+    </div><!--//.type-->
 {% endblock %}

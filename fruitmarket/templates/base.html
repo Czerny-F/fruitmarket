@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+{% load i18n %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
   {% block head %}
   <meta charset="UTF-8">
@@ -8,13 +8,21 @@
 </head>
 <body>
   <div id="header">
-    {% block header %}{% endblock %}
-  </div>
+    {% block header %}
+    <h1>{% trans "fruit sales management" %}</h1>
+    <h2>{% block h2 %}{% trans page_name|default:"" %}{% endblock %}</h2>
+    <div class="breadcrumbs">
+      {% block breadcrumbs %}
+      <a href="">TOP</a> &rsaquo; {% trans page_name|default:"" %}
+      {% endblock %}
+    </div><!--//.breadcrumbs-->
+    {% endblock %}
+  </div><!--//#header-->
   <div id="content">
     {% block content %}{% endblock %}
-  </div>
+  </div><!--//#content-->
   <div id="footer">
     {% block footer %}{% endblock %}
-  </div>
+  </div><!--//#footer-->
 </body>
 </html>

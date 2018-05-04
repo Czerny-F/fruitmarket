@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block title %}{{ block.super }} : Fruit List{% endblock %}
+{% block title %}{{ block.super }} : {% trans "fruit master data management" %}{% endblock %}
+
+{% block header %}
+{% with page_name="fruit master data management" %}
+{{ block.super }}
+{% endwith %}
+{% endblock %}
 
 {% block content %}
-    <h2>{% trans "Fruit master management" %}</h2>
     <div class="table">
       <table>
         <thead>
@@ -28,5 +33,5 @@
           {% endfor %}
         </tbody>
       </table>
-    </div>
+    </div><!--//.table-->
 {% endblock %}
