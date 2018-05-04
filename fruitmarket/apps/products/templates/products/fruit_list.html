@@ -28,10 +28,16 @@
             <td>{{ obj.name }}</td>
             <td>{{ obj.unit_price }}</td>
             <td>{{ obj.created_at }}</td>
-            <td></td>
+            <td>
+              <a href="">{% trans "edit" %}</a>
+              <a href="">{% trans "delete" %}</a>
+            </td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div><!--//.table-->
+    <div class="buttons">
+      <a href="">{% trans "add" %}</a>
+    </div><!--//.buttons-->
 {% endblock %}
