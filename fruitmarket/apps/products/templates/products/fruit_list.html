@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{{ block.super }} : Fruit List{% endblock %}
+
+{% block content %}
+    <h2>{% trans "Fruit master management" %}</h2>
+    <div class="table">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>{% trans "name" %}</th>
+            <th>{% trans "unit price" %}</th>
+            <th>{% trans "datetime created" %}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for obj in object_list %}
+          <tr>
+            <th>{{ obj.id }}</th>
+            <td>{{ obj.name }}</td>
+            <td>{{ obj.unit_price }}</td>
+            <td>{{ obj.created_at }}</td>
+            <td></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+{% endblock %}
