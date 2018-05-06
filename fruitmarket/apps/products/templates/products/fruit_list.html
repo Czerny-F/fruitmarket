@@ -30,7 +30,7 @@
             <td>{{ obj.created_at }}</td>
             <td>
               <a href="{{ obj.get_absolute_url }}">{% trans "edit" %}</a>
-              <a href="">{% trans "delete" %}</a>
+              <a href="{% url 'products:fruits:delete' obj.pk %}">{% trans "delete" %}</a>
             </td>
           </tr>
           {% endfor %}
