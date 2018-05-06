@@ -7,18 +7,18 @@ class FruitList(generic.ListView):
     model = Fruit
 
 
-class FruitCreate(generic.CreateView):
+class FruitEditMixin(object):
     model = Fruit
+    success_url = reverse_lazy('products:fruits:list')
+
+
+class FruitCreate(FruitEditMixin, generic.CreateView):
     fields = '__all__'
-    success_url = reverse_lazy('products:fruits:list')
 
 
-class FruitUpdate(generic.UpdateView):
-    model = Fruit
+class FruitUpdate(FruitEditMixin, generic.UpdateView):
     fields = '__all__'
-    success_url = reverse_lazy('products:fruits:list')
 
 
-class FruitDelete(generic.DeleteView):
-    model = Fruit
-    success_url = reverse_lazy('products:fruits:list')
+class FruitDelete(FruitEditMixin, generic.DeleteView):
+    pass

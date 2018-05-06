@@ -9,21 +9,21 @@ class FruitSalesList(generic.ListView):
     queryset = FruitSales.objects.select_related()
 
 
-class FruitSalesCreate(generic.CreateView):
+class FruitSalesEditMixin(object):
     model = FruitSales
+    success_url = reverse_lazy('sales:fruits:list')
+
+
+class FruitSalesCreate(FruitSalesEditMixin, generic.CreateView):
     fields = '__all__'
-    success_url = reverse_lazy('sales:fruits:list')
 
 
-class FruitSalesUpdate(generic.UpdateView):
-    model = FruitSales
+class FruitSalesUpdate(FruitSalesEditMixin, generic.UpdateView):
     fields = '__all__'
-    success_url = reverse_lazy('sales:fruits:list')
 
 
-class FruitSalesDelete(generic.DeleteView):
-    model = FruitSales
-    success_url = reverse_lazy('sales:fruits:list')
+class FruitSalesDelete(FruitSalesEditMixin, generic.DeleteView):
+    pass
 
 
 class FruitSalesStatsOverview(generic.TodayArchiveView):
