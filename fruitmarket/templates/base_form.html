@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{{ block.super }} : {% if object %}{% trans "edit" %}{% else %}{% trans "add" %}{% endif %}{% endblock %}
+
+{% block h2 %}{% if object %}{% trans "edit" %}{% else %}{% trans "add" %}{% endif %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+    <form method="post">{% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="{% if object %}{% trans "update" %}{% else %}{% trans "add" %}{% endif %}" />
+    </form>
+{% endblock %}

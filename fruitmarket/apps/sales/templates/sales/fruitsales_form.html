@@ -1,15 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'base_form.html' %}
 {% load i18n %}
 
-{% block title %}{{ block.super }} : {% trans "edit fruit sales" %}{% endblock %}
+{% block title %}{{ block.super }} {% trans "fruit sales" %}{% endblock %}
 
-{% block h2 %}{% trans "edit fruit sales" %}{% endblock %}
-
-{% block breadcrumbs %}{% endblock %}
-
-{% block content %}
-    <form method="post">{% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit" value="Update" />
-    </form>
-{% endblock %}
+{% block h2 %}{{ block.super }} {% trans "fruit sales" %}{% endblock %}

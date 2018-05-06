@@ -5,6 +5,7 @@ app_name = 'sales'
 urlpatterns = [
     path('fruits/', include(([
         path('', views.FruitSalesList.as_view(), name='list'),
+        path('add/', views.FruitSalesCreate.as_view(), name='add'),
         path('<int:pk>/', include([
             path('', views.FruitSalesUpdate.as_view(), name='edit'),
             path('delete/', views.FruitSalesDelete.as_view(), name='delete'),

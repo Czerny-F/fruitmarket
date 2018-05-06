@@ -9,6 +9,12 @@ class FruitSalesList(generic.ListView):
     queryset = FruitSales.objects.select_related()
 
 
+class FruitSalesCreate(generic.CreateView):
+    model = FruitSales
+    fields = '__all__'
+    success_url = reverse_lazy('sales:fruits:list')
+
+
 class FruitSalesUpdate(generic.UpdateView):
     model = FruitSales
     fields = '__all__'
