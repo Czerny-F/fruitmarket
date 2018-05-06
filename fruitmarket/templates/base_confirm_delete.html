@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{{ block.super }} : {% trans "delete" %}{% endblock %}
+
+{% block h2 %}{% trans "delete" %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+    <form method="post">{% csrf_token %}
+      <p>{% blocktrans %}Are you sure you want to delete "{{ object }}"?{% endblocktrans %}</p>
+      <input type="submit" value="Confirm" />
+    </form>
+{% endblock %}
