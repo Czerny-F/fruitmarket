@@ -15,6 +15,11 @@ class FruitSalesUpdate(generic.UpdateView):
     success_url = reverse_lazy('sales:fruits:list')
 
 
+class FruitSalesDelete(generic.DeleteView):
+    model = FruitSales
+    success_url = reverse_lazy('sales:fruits:list')
+
+
 class FruitSalesStatsOverview(generic.TodayArchiveView):
     queryset = FruitSales.objects.all()
     date_field = 'sold_at'
