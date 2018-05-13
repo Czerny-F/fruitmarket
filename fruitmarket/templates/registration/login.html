@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block h2 %}{% trans "login" %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}" />
+      {{ form.as_p }}
+      <input type="submit" value="{% trans "login" %}" />
+    </form>
+{% endblock %}
