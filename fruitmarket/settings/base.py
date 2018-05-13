@@ -49,6 +49,15 @@ TEMPLATES = [
 ]
 
 
+# Auth
+
+LOGIN_REDIRECT_URL = 'index'
+
+LOGIN_URL = 'login'
+
+LOGOUT_REDIRECT_URL = LOGIN_URL
+
+
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
