@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.contrib.auth.models import User
 from fruitmarket.apps.products.tests import create_fruits
 from .models import FruitSales
 from .services import FruitSalesStats, FruitSalesSet
@@ -84,12 +85,14 @@ class FruitSalesViewTests(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        cls.user = User.objects.create_user('tester', password='pass')
         create_fruitsales(cls)
 
     def setUp(self):
         pass
 
     def test_stats(self):
+        self.client.force_login(self.user)
         with self.assertTemplateUsed('sales/stats.html'):
             response = self.client.get(reverse('sales:stats:overview'))
             self.assertEqual(response.status_code, 200)
