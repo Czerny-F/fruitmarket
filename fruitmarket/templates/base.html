@@ -10,6 +10,11 @@
   <div id="header">
     {% block header %}
     <h1>{% trans "fruit sales management" %}</h1>
+    <div id="tools">
+      {% block tools %}
+      <a href="{% url 'logout' %}">{% trans "logout" %}</a>
+      {% endblock %}
+    </div><!--//#tools-->
     <h2>{% block h2 %}{% trans page_name|default:"" %}{% endblock %}</h2>
     <div class="breadcrumbs">
       {% block breadcrumbs %}
