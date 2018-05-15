@@ -36,6 +36,18 @@ class FruitSalesModelTests(TestCase):
         self.assertEqual(self.apple_sale.amount,
                          self.apple.unit_price * self.apple_sale.quantity)
 
+    def test_amount_on_unit_price_changed(self):
+        amount = self.blueberry_sale.amount
+        self.blueberry.unit_price += 100
+        self.blueberry.save()
+        self.assertEqual(self.blueberry_sale.amount, amount)
+
+    def test_amount_on_quantity_changed(self):
+        amount = self.blueberry_sale.amount
+        self.blueberry_sale.quantity += 10
+        self.blueberry_sale.save()
+        self.assertEqual(self.blueberry_sale.amount, amount)
+
 
 class FruitSalesManagerTests(TestCase):
 
