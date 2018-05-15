@@ -12,9 +12,24 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost']
 
-ROOT_URLCONF = 'fruitmarket.urls'
+ROOT_URLCONF = 'fruitmarket.urls.development'
 
 WSGI_APPLICATION = 'fruitmarket.wsgi.application'
+
+
+# Django Debug Toolbar
+
+INSTALLED_APPS += [  # noqa
+    'debug_toolbar',
+]
+
+MIDDLEWARE += [  # noqa
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
 
 
 # Database
