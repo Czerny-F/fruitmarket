@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.conf import settings
 from django.contrib.auth.models import User
 from fruitmarket.apps.products.tests import create_fruits
 from .models import FruitSales
@@ -101,11 +102,52 @@ class FruitSalesViewTests(TestCase):
         create_fruitsales(cls)
 
     def setUp(self):
-        pass
+        self.urls = {
+            'list': reverse('sales:fruits:list'),
+            'add': reverse('sales:fruits:add'),
+            'edit': self.apple_sale.get_absolute_url(),
+            'delete': reverse('sales:fruits:delete', args=(self.apple_sale.pk,)),
+            'stats': reverse('sales:stats:overview'),
+        }
+
+    def test_login_required_at_list(self):
+        expected_url = '%s?next=%s' % (reverse(settings.LOGIN_URL),
+                                       self.urls['list'])
+        response = self.client.get(self.urls['list'])
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, expected_url)
+
+    def test_login_required_at_add(self):
+        expected_url = '%s?next=%s' % (reverse(settings.LOGIN_URL),
+                                       self.urls['add'])
+        response = self.client.get(self.urls['add'])
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, expected_url)
+
+    def test_login_required_at_edit(self):
+        expected_url = '%s?next=%s' % (reverse(settings.LOGIN_URL),
+                                       self.urls['edit'])
+        response = self.client.get(self.urls['edit'])
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, expected_url)
+
+    def test_login_required_at_delete(self):
+        expected_url = '%s?next=%s' % (reverse(settings.LOGIN_URL),
+                                       self.urls['delete'])
+        response = self.client.get(self.urls['delete'])
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, expected_url)
+
+    def test_login_required_at_stats(self):
+        expected_url = '%s?next=%s' % (reverse(settings.LOGIN_URL),
+                                       self.urls['stats'])
+        response = self.client.get(self.urls['stats'])
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, expected_url)
 
     def test_stats(self):
         self.client.force_login(self.user)
         with self.assertTemplateUsed('sales/stats.html'):
-            response = self.client.get(reverse('sales:stats:overview'))
+            response = self.client.get(self.urls['stats'])
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response.context['gross'], FruitSales.objects.gross())
