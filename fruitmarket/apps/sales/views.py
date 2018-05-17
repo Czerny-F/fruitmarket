@@ -18,7 +18,7 @@ class FruitSalesList(FruitSalesEditMixin, generic.edit.FormMixin, generic.ListVi
     queryset = FruitSales.objects.select_related()
 
     def form_valid(self, form):
-        print(form.cleaned_data)
+        form.save()
         return super().form_valid(form)
 
     def form_invalid(self, form):
