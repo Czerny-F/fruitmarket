@@ -15,18 +15,15 @@ class FruitSalesCSVUploadForm(forms.Form):
             raise forms.ValidationError(_("invalid file"))
 
         try:
-            file_.readline().decode(ENCODING)
+            file_.read().decode(ENCODING)
         except UnicodeDecodeError:
             raise forms.ValidationError(_("invalid encoding"))
         else:
             file_.seek(0)
-            reader = csv.reader(codecs.iterdecode(file_, ENCODING))
-            self.cleaned_data['reader'] = reader
 
         return file_
 
     def save(self):
-        assert 'reader' in self.cleaned_data
-
-        for row in self.cleaned_data['reader']:
+        file_ = self.cleaned_data['file_']
+        for row in csv.reader(codecs.iterdecode(file_, ENCODING)):
             print(row)
