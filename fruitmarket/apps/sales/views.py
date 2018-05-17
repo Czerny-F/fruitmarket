@@ -4,17 +4,33 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from .models import FruitSales
 from .services import FruitSalesStats
-
-
-@method_decorator(login_required, name='dispatch')
-class FruitSalesList(generic.ListView):
-    model = FruitSales
-    queryset = FruitSales.objects.select_related()
+from .forms import FruitSalesCSVUploadForm
 
 
 class FruitSalesEditMixin(object):
     model = FruitSales
     success_url = reverse_lazy('sales:fruits:list')
+
+
+@method_decorator(login_required, name='dispatch')
+class FruitSalesList(FruitSalesEditMixin, generic.edit.FormMixin, generic.ListView):
+    form_class = FruitSalesCSVUploadForm
+    queryset = FruitSales.objects.select_related()
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        self.object_list = self.get_queryset()
+        return super().form_invalid(form)
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
 
 
 @method_decorator(login_required, name='dispatch')
