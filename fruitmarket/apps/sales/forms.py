@@ -28,7 +28,7 @@ class BaseCSVUploadForm(forms.Form):
 
     @property
     def result(self) -> dict:
-        assert not hasattr(self, '_imported') or not hasattr(self, '_ignored'), (
+        assert hasattr(self, '_imported') and hasattr(self, '_ignored'), (
             'You must call `.save()` first.'
         )
 
