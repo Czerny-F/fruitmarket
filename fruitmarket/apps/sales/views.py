@@ -35,12 +35,12 @@ class FruitSalesList(FruitSalesEditMixin, generic.edit.FormMixin, generic.ListVi
 
 @method_decorator(login_required, name='dispatch')
 class FruitSalesCreate(FruitSalesEditMixin, generic.CreateView):
-    fields = '__all__'
+    fields = ['fruit', 'quantity', 'sold_at']
 
 
 @method_decorator(login_required, name='dispatch')
 class FruitSalesUpdate(FruitSalesEditMixin, generic.UpdateView):
-    fields = '__all__'
+    fields = ['fruit', 'quantity', 'sold_at']
 
 
 @method_decorator(login_required, name='dispatch')

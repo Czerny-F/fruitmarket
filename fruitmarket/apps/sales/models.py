@@ -12,7 +12,7 @@ from .managers import FruitSalesManager
 class FruitSales(EditableModel):
     fruit = models.ForeignKey(Fruit, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField(_("quantity"))
-    amount = models.PositiveIntegerField(_("amount"), editable=False)
+    amount = models.PositiveIntegerField(_("amount"))
     sold_at = models.DateTimeField(_("datetime sold"), default=timezone.now,
                                    db_index=True)
 
@@ -40,5 +40,5 @@ class FruitSales(EditableModel):
 
 @receiver(pre_save, sender=FruitSales)
 def calculate_amount(sender, instance, **kwargs):
-    if not instance.pk:
+    if not instance.pk and instance.amount is None:
         instance.amount = instance.fruit.unit_price * instance.quantity
