@@ -214,3 +214,23 @@ class FruitSalesViewTests(TestCase):
             response = self.client.get(self.urls['stats'])
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response.context['gross'], FruitSales.objects.gross())
+
+    def test_post_csv_upload_without_auth(self):
+        expected_url = '%s?next=%s' % (reverse(settings.LOGIN_URL),
+                                       self.urls['list'])
+        response = self.client.post(self.urls['list'])
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, expected_url)
+
+    def test_post_csv_upload_without_data(self):
+        self.client.force_login(self.user)
+        response = self.client.post(self.urls['list'])
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('file_', response.context['form'].errors)
+
+    def test_post_csv_upload_with_valid_data(self):
+        self.client.force_login(self.user)
+        with open(VALID_CSV_FNAME, 'rb') as f:
+            response = self.client.post(self.urls['list'], {'file_': f})
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, self.urls['list'])
