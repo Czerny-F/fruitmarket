@@ -1,10 +1,18 @@
+import os
 from django.test import TestCase
 from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.files.uploadedfile import SimpleUploadedFile
 from fruitmarket.apps.products.tests import create_fruits
 from .models import FruitSales
 from .services import FruitSalesStats, FruitSalesSet
+from .forms import FruitSalesCSVUploadForm
+
+DIR = os.path.dirname(os.path.abspath(__file__))
+VALID_CSV_FNAME = os.path.join(DIR, 'misc/test_valid.csv')
+INVALID_CSV_FNAME = os.path.join(DIR, 'misc/test_invalid.txt')
+CP932_CSV_FNAME = os.path.join(DIR, 'misc/test_invalid_encoding.csv')
 
 
 def create_fruitsales(cls):
@@ -92,6 +100,61 @@ class FruitSalesServiceTests(TestCase):
         with self.assertNumQueries(2):
             for sub in breakdown:
                 self.assertIsInstance(sub, FruitSalesSet)
+
+
+class FruitSalesCSVUploadFormTests(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        create_fruits(cls)
+        cls.form_class = FruitSalesCSVUploadForm
+
+    def setUp(self):
+        pass
+
+    def test_get_result_at_first(self):
+        form = self.form_class()
+        with self.assertRaisesRegex(AssertionError, r'save()'):
+            form.result
+
+    def test_call_save_at_first(self):
+        form = self.form_class()
+        with self.assertRaisesRegex(AssertionError, r'is_valid()'):
+            form.save()
+
+    def test_is_valid_with_empty_data(self):
+        form = self.form_class(files={})
+        self.assertFalse(form.is_valid())
+        with self.assertRaisesRegex(AssertionError, r'invalid'):
+            form.save()
+
+    def test_is_valid_with_non_csvfile(self):
+        with open(INVALID_CSV_FNAME, 'rb') as f:
+            files = {'file_': SimpleUploadedFile(INVALID_CSV_FNAME, f.read(),
+                                                 content_type='text/plain')}
+        form = self.form_class(files=files)
+        self.assertFalse(form.is_valid())
+        with self.assertRaisesRegex(AssertionError, r'invalid'):
+            form.save()
+
+    def test_is_valid_with_csvfile_encoded_cp932(self):
+        with open(CP932_CSV_FNAME, 'rb') as f:
+            files = {'file_': SimpleUploadedFile(CP932_CSV_FNAME, f.read(),
+                                                 content_type='text/csv')}
+        form = self.form_class(files=files)
+        self.assertFalse(form.is_valid())
+        with self.assertRaisesRegex(AssertionError, r'invalid'):
+            form.save()
+
+    def test_csv_upload_form_valid_csvfile(self):
+        with open(VALID_CSV_FNAME, 'rb') as f:
+            files = {'file_': SimpleUploadedFile(VALID_CSV_FNAME, f.read(),
+                                                 content_type='text/csv')}
+        form = self.form_class(files=files)
+        self.assertTrue(form.is_valid())
+        form.save()
+        self.assertEqual(len(form.result['imported']), 6)
+        self.assertEqual(len(form.result['ignored']), 8)
 
 
 class FruitSalesViewTests(TestCase):

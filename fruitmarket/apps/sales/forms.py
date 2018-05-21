@@ -3,7 +3,6 @@ import codecs
 from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
-from django.core.exceptions import ImproperlyConfigured
 from fruitmarket.apps.products.models import Fruit
 from .models import FruitSales
 
@@ -35,6 +34,10 @@ class BaseCSVUploadForm(forms.Form):
         return {'imported': self._imported, 'ignored': self._ignored}
 
     def save(self):
+        assert hasattr(self, 'cleaned_data'), (
+            'You must call `.is_valid()` first.'
+        )
+
         assert not self.errors, (
             'You cannot call `.save()` with invalid data.'
         )
@@ -53,9 +56,8 @@ class BaseCSVUploadForm(forms.Form):
                                       'row': list(row.values()),
                                       'errors': form.errors})
 
-    def get_csv_form(self, *args, **kwargs) -> forms.Form:
-        if not self.csv_form_class:
-            raise ImproperlyConfigured('Specify csv_form_class.')
+    def get_csv_form(self, *args, **kwargs) -> forms.BaseForm:
+        assert issubclass(self.csv_form_class, forms.BaseForm), 'Specify csv_form_class.'
         return self.csv_form_class(*args, **kwargs)
 
     def csv_fields(self) -> list:
