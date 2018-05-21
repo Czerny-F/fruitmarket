@@ -115,6 +115,10 @@ class FruitSalesCSVUploadFormTests(TestCase):
     def test_get_result_at_first(self):
         form = self.form_class()
         with self.assertRaisesRegex(AssertionError, r'save()'):
+            form.imported
+        with self.assertRaisesRegex(AssertionError, r'save()'):
+            form.ignored
+        with self.assertRaisesRegex(AssertionError, r'save()'):
             form.result
 
     def test_call_save_at_first(self):
@@ -153,8 +157,9 @@ class FruitSalesCSVUploadFormTests(TestCase):
         form = self.form_class(files=files)
         self.assertTrue(form.is_valid())
         form.save()
-        self.assertEqual(len(form.result['imported']), 6)
-        self.assertEqual(len(form.result['ignored']), 8)
+        self.assertEqual(len(form.imported), 6)
+        self.assertEqual(len(form.ignored), 8)
+        self.assertIsInstance(form.result, str)
 
 
 class FruitSalesViewTests(TestCase):
@@ -231,6 +236,7 @@ class FruitSalesViewTests(TestCase):
     def test_post_csv_upload_with_valid_data(self):
         self.client.force_login(self.user)
         with open(VALID_CSV_FNAME, 'rb') as f:
-            response = self.client.post(self.urls['list'], {'file_': f})
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, self.urls['list'])
+            response = self.client.post(self.urls['list'], {'file_': f}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertListEqual(response.redirect_chain, [(self.urls['list'], 302)])
+        self.assertGreaterEqual(len(response.context['messages']), 1)

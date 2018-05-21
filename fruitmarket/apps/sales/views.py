@@ -1,6 +1,7 @@
 from django.views import generic
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import FruitSales
 from .services import FruitSalesStats
@@ -19,6 +20,7 @@ class FruitSalesList(FruitSalesEditMixin, generic.edit.FormMixin, generic.ListVi
 
     def form_valid(self, form):
         form.save()
+        messages.success(self.request, form.result)
         return super().form_valid(form)
 
     def form_invalid(self, form):

@@ -26,12 +26,26 @@ class BaseCSVUploadForm(forms.Form):
         return file_
 
     @property
-    def result(self) -> dict:
+    def imported(self) -> list:
+        assert hasattr(self, '_imported'), 'You must call `.save()` first.'
+        return self._imported
+
+    @property
+    def ignored(self) -> list:
+        assert hasattr(self, '_ignored'), 'You must call `.save()` first.'
+        return self._ignored
+
+    @property
+    def result(self) -> str:
         assert hasattr(self, '_imported') and hasattr(self, '_ignored'), (
             'You must call `.save()` first.'
         )
-
-        return {'imported': self._imported, 'ignored': self._ignored}
+        return _("%(imported_num)d line(s) imported,"
+                 " %(ignored_num)d line(s) ignored(%(ignored_line)s).") % {
+                     'imported_num': len(self.imported),
+                     'ignored_num': len(self.ignored),
+                     'ignored_line': ','.join(str(ign['line']) for ign in self.ignored),
+                 }
 
     def save(self):
         assert hasattr(self, 'cleaned_data'), (
