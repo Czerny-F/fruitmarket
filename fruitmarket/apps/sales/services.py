@@ -34,8 +34,8 @@ class FruitSalesStats(object):
         return self.queryset.total()
 
     @cached_property
-    def fruits(self):
-        return Fruit.objects.filter(fruitsales__in=self.queryset).distinct()
+    def fruits(self) -> set:
+        return set(s.fruit for s in self.queryset)
 
     def breakdown(self) -> Iterator[FruitSalesSet]:
         for fruit in self.fruits:

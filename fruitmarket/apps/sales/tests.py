@@ -97,7 +97,7 @@ class FruitSalesServiceTests(TestCase):
     def test_breakdown(self):
         with self.assertNumQueries(0):
             breakdown = self.stats.breakdown()
-        with self.assertNumQueries(2):
+        with self.assertNumQueries(1):
             for sub in breakdown:
                 self.assertIsInstance(sub, FruitSalesSet)
 
