@@ -225,7 +225,7 @@ class FruitSalesViewTests(TestCase):
 
     def test_stats(self):
         self.client.force_login(self.user)
-        with self.assertTemplateUsed('sales/stats.html'):
+        with self.assertTemplateUsed('sales/fruitsales_stats.html'):
             response = self.client.get(self.urls['stats'])
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response.context['gross'], FruitSales.objects.gross())
