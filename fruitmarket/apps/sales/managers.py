@@ -1,6 +1,6 @@
 import datetime
 from django.db import models
-from .utils import to_datetime, get_current_month, get_next_month
+from fruitmarket.core.utils import to_datetime, get_current_month, get_next_month
 
 
 class BaseSalesQuerySetMixin(object):
