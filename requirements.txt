@@ -8,3 +8,4 @@ nose
 rednose
 coverage
 django-nose
+django-pandas

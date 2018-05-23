@@ -1,5 +1,5 @@
 import datetime
-from django.db import models
+from django_pandas.managers import DataFrameQuerySet, DataFrameManager
 from fruitmarket.core.utils import to_datetime, get_current_month, get_next_month
 
 
@@ -22,21 +22,14 @@ class BaseSalesQuerySetMixin(object):
         return sum(obj.amount for obj in self)
 
 
-class BaseSalesManagerMixin(object):
-
-    def daily(self, date: datetime.date):
-        return self.get_queryset().daily(date)
-
-    def monthly(self, date: datetime.date):
-        return self.get_queryset().monthly(date)
+class BaseSalesManager(DataFrameManager):
 
     def gross(self) -> int:
         return self.get_queryset().total_amount()
 
 
-class FruitSalesQuerySet(BaseSalesQuerySetMixin, models.QuerySet):
+class FruitSalesQuerySet(BaseSalesQuerySetMixin, DataFrameQuerySet):
     date_field = 'sold_at'
 
 
-class FruitSalesManager(BaseSalesManagerMixin, models.Manager):
-    _queryset_class = FruitSalesQuerySet
+FruitSalesManager = BaseSalesManager.from_queryset(FruitSalesQuerySet)
