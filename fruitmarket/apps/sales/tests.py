@@ -1,4 +1,5 @@
 import os
+import datetime
 from django.test import TestCase
 from django.urls import reverse
 from django.conf import settings
@@ -64,6 +65,7 @@ class FruitSalesManagerTests(TestCase):
     def setUpTestData(cls):
         create_fruitsales(cls)
         cls.manager = FruitSales.objects
+        cls.today = datetime.date.today()
 
     def setUp(self):
         pass
@@ -75,9 +77,17 @@ class FruitSalesManagerTests(TestCase):
                               self.apple_sale.amount,
                               self.apple_sale_alt.amount]))
 
-    def test_subtotal(self):
-        self.assertEqual(self.manager.filter(fruit=self.apple).total(),
+    def test_subtotal_amount(self):
+        self.assertEqual(self.manager.filter(fruit=self.apple).total_amount(),
                          sum([self.apple_sale.amount, self.apple_sale_alt.amount]))
+
+    def test_daily(self):
+        self.assertEqual(self.manager.daily(self.today).count(),
+                         self.manager.count())
+
+    def test_monthly(self):
+        self.assertEqual(self.manager.monthly(self.today).count(),
+                         self.manager.count())
 
 
 class FruitSalesServiceTests(TestCase):
@@ -91,8 +101,8 @@ class FruitSalesServiceTests(TestCase):
     def setUp(self):
         pass
 
-    def test_total(self):
-        self.assertEqual(self.stats.total, self.qs.total())
+    def test_total_amount(self):
+        self.assertEqual(self.stats.total_amount, self.qs.total_amount())
 
     def test_breakdown(self):
         with self.assertNumQueries(0):
