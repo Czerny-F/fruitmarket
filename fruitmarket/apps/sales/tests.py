@@ -102,7 +102,7 @@ class FruitSalesServiceTests(TestCase):
         pass
 
     def test_total_amount(self):
-        self.assertEqual(self.stats.total_amount, self.qs.total_amount())
+        self.assertEqual(self.stats.total_amount(), self.qs.total_amount())
 
     def test_breakdown(self):
         with self.assertNumQueries(0):

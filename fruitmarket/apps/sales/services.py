@@ -1,13 +1,11 @@
-from typing import List, Iterator
+from typing import Iterator
 from django.utils.functional import cached_property
-from fruitmarket.apps.products.models import Fruit
 from .managers import FruitSalesQuerySet
-from .models import FruitSales
 
 
 class FruitSalesSet(object):
 
-    def __init__(self, fruit: Fruit, sales: List[FruitSales]):
+    def __init__(self, fruit, sales: list):
         self.fruit = fruit
         self.sales = sales
 
@@ -30,14 +28,13 @@ class FruitSalesStats(object):
         return self._queryset.select_related()
 
     @cached_property
-    def total(self) -> int:
-        return self.queryset.total()
-
-    @cached_property
     def fruits(self) -> set:
-        return set(s.fruit for s in self.queryset)
+        return set(obj.fruit for obj in self.queryset)
+
+    def total_amount(self) -> int:
+        return self.queryset.total_amount()
 
     def breakdown(self) -> Iterator[FruitSalesSet]:
         for fruit in self.fruits:
-            sales = [obj for obj in self.queryset if obj.fruit == fruit]
+            sales = list(obj for obj in self.queryset if obj.fruit == fruit)
             yield FruitSalesSet(fruit, sales)

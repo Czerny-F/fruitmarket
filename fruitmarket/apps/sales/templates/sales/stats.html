@@ -29,7 +29,7 @@
             {% for month in monthly %}
             <tr>
               <th>{{ month.date|date:'Y/n' }}</th>
-              <td>{{ month.stats.total }}{% trans "Yen" %}</td>
+              <td>{{ month.stats.total_amount }}{% trans "Yen" %}</td>
               <td>
                 {% for set in month.stats.breakdown %}
                   {{ set.fruit.name }}: {{ set.total_amount }}{% trans "Yen" %}({{ set.total_quantity }})
@@ -56,7 +56,7 @@
             {% for day in daily %}
             <tr>
               <th>{{ day.date|date:'Y/n/j' }}</th>
-              <td>{{ day.stats.total }}{% trans "Yen" %}</td>
+              <td>{{ day.stats.total_amount }}{% trans "Yen" %}</td>
               <td>
                 {% for set in day.stats.breakdown %}
                   {{ set.fruit.name }}: {{ set.total_amount }}{% trans "Yen" %}({{ set.total_quantity }})
