@@ -186,6 +186,7 @@ class FruitSalesViewTests(TestCase):
             'edit': self.apple_sale.get_absolute_url(),
             'delete': reverse('sales:fruits:delete', args=(self.apple_sale.pk,)),
             'stats': reverse('sales:stats:overview'),
+            'pandas': reverse('sales:stats:pandas'),
         }
 
     def test_login_required_at_list(self):
@@ -223,12 +224,26 @@ class FruitSalesViewTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, expected_url)
 
+    def test_login_required_at_pandas(self):
+        expected_url = '%s?next=%s' % (reverse(settings.LOGIN_URL),
+                                       self.urls['pandas'])
+        response = self.client.get(self.urls['pandas'])
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, expected_url)
+
     def test_stats(self):
         self.client.force_login(self.user)
         with self.assertTemplateUsed('sales/fruitsales_stats.html'):
             response = self.client.get(self.urls['stats'])
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response.context['gross'], FruitSales.objects.gross())
+
+    def test_pandas(self):
+        self.client.force_login(self.user)
+        with self.assertTemplateUsed('sales/fruitsales_dataframe_stats.html'):
+            response = self.client.get(self.urls['pandas'])
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.context['stats'].gross, FruitSales.objects.gross())
 
     def test_post_csv_upload_without_auth(self):
         expected_url = '%s?next=%s' % (reverse(settings.LOGIN_URL),

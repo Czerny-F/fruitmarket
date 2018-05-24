@@ -88,6 +88,7 @@ class FruitSalesStatsOverview(generic.dates.MonthMixin,
             date = self.get_previous_day(date)
 
 
+@method_decorator(login_required, name='dispatch')
 class FruitSalesPandasStats(generic.TemplateView):
     template_name = 'sales/fruitsales_dataframe_stats.html'
 
