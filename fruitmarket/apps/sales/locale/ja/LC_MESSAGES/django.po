@@ -1,0 +1,160 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-24 19:18+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: fruitmarket/apps/sales/apps.py:8
+#: fruitmarket/apps/sales/templates/sales/fruitsales_dataframe_stats.html:24
+#: fruitmarket/apps/sales/templates/sales/fruitsales_dataframe_stats.html:51
+#: fruitmarket/apps/sales/templates/sales/fruitsales_stats.html:24
+#: fruitmarket/apps/sales/templates/sales/fruitsales_stats.html:51
+msgid "sales"
+msgstr "売り上げ"
+
+#: fruitmarket/apps/sales/forms.py:17
+msgid "invalid file."
+msgstr "ファイルが不正です。"
+
+#: fruitmarket/apps/sales/forms.py:22
+msgid "invalid encoding."
+msgstr "ファイルエンコードが不正です。"
+
+#: fruitmarket/apps/sales/forms.py:43
+#, python-format
+msgid ""
+"%(imported_num)d line(s) imported, %(ignored_num)d line(s) "
+"ignored(%(ignored_line)s)."
+msgstr ""
+"%(imported_num)dデータが登録されました。"
+"%(ignored_num)d行が不正です(%(ignored_line)s)。"
+
+#: fruitmarket/apps/sales/models.py:14
+#: fruitmarket/apps/sales/templates/sales/fruitsales_list.html:18
+msgid "quantity"
+msgstr "個数"
+
+#: fruitmarket/apps/sales/models.py:15
+#: fruitmarket/apps/sales/templates/sales/fruitsales_list.html:19
+msgid "amount"
+msgstr "売り上げ"
+
+#: fruitmarket/apps/sales/models.py:16
+#: fruitmarket/apps/sales/templates/sales/fruitsales_list.html:20
+msgid "datetime sold"
+msgstr "販売日時"
+
+#: fruitmarket/apps/sales/models.py:22
+msgid "sale of fruit"
+msgstr "果物販売情報"
+
+#: fruitmarket/apps/sales/models.py:23
+msgid "sales of fruit"
+msgstr "果物販売情報"
+
+#: fruitmarket/apps/sales/models.py:27
+#, python-format
+msgid "%(fruit)s sold at %(sold_at)s"
+msgstr "%(fruit)s販売(%(sold_at)s)"
+
+#: fruitmarket/apps/sales/templates/sales/fruitsales_confirm_delete.html:4
+#: fruitmarket/apps/sales/templates/sales/fruitsales_confirm_delete.html:6
+#: fruitmarket/apps/sales/templates/sales/fruitsales_form.html:4
+#: fruitmarket/apps/sales/templates/sales/fruitsales_form.html:6
+msgid "fruit sales"
+msgstr "果物販売情報"
+
+#: fruitmarket/apps/sales/templates/sales/fruitsales_dataframe_stats.html:4
+msgid "sales statistics - pandas"
+msgstr "販売統計情報 - pandas"
+
+#: fruitmarket/apps/sales/templates/sales/fruitsales_dataframe_stats.html:14
+#: fruitmarket/apps/sales/templates/sales/fruitsales_stats.html:14
+msgid "Gross"
+msgstr "累計"
+
+#: fruitmarket/apps/sales/templates/sales/fruitsales_dataframe_stats.html:15
+#: fruitmarket/apps/sales/templates/sales/fruitsales_dataframe_stats.html:32
+#: fruitmarket/apps/sales/templates/sales/fruitsales_dataframe_stats.html:35
+#: fruitmarket/apps/sales/templates/sales/fruitsales_dataframe_stats.html:59
+#: fruitmarket/apps/sales/templates/sales/fruitsales_dataframe_stats.html:62
+#: fruitmarket/apps/sales/templates/sales/fruitsales_stats.html:15
+#: fruitmarket/apps/sales/templates/sales/fruitsales_stats.html:32
+#: fruitmarket/apps/sales/templates/sales/fruitsales_stats.html:35
+#: fruitmarket/apps/sales/templates/sales/fruitsales_stats.html:59
+#: fruitmarket/apps/sales/templates/sales/fruitsales_stats.html:62
+msgid "Yen"
+msgstr "円"
+
+#: fruitmarket/apps/sales/templates/sales/fruitsales_dataframe_stats.html:18
+#: fruitmarket/apps/sales/templates/sales/fruitsales_stats.html:18
+msgid "Monthly"
+msgstr "月別"
+
+#: fruitmarket/apps/sales/templates/sales/fruitsales_dataframe_stats.html:23
+#: fruitmarket/apps/sales/templates/sales/fruitsales_stats.html:23
+msgid "month"
+msgstr "月"
+
+#: fruitmarket/apps/sales/templates/sales/fruitsales_dataframe_stats.html:25
+#: fruitmarket/apps/sales/templates/sales/fruitsales_dataframe_stats.html:52
+#: fruitmarket/apps/sales/templates/sales/fruitsales_stats.html:25
+#: fruitmarket/apps/sales/templates/sales/fruitsales_stats.html:52
+msgid "breakdown"
+msgstr "内訳"
+
+#: fruitmarket/apps/sales/templates/sales/fruitsales_dataframe_stats.html:45
+#: fruitmarket/apps/sales/templates/sales/fruitsales_stats.html:45
+msgid "Daily"
+msgstr "日別"
+
+#: fruitmarket/apps/sales/templates/sales/fruitsales_dataframe_stats.html:50
+#: fruitmarket/apps/sales/templates/sales/fruitsales_stats.html:50
+msgid "date"
+msgstr "日付"
+
+#: fruitmarket/apps/sales/templates/sales/fruitsales_list.html:4
+msgid "fruit sales management"
+msgstr "果物販売管理"
+
+#: fruitmarket/apps/sales/templates/sales/fruitsales_list.html:17
+msgid "fruit"
+msgstr "果物"
+
+#: fruitmarket/apps/sales/templates/sales/fruitsales_list.html:32
+msgid "edit"
+msgstr "編集"
+
+#: fruitmarket/apps/sales/templates/sales/fruitsales_list.html:33
+msgid "delete"
+msgstr "削除"
+
+#: fruitmarket/apps/sales/templates/sales/fruitsales_list.html:41
+msgid "add"
+msgstr "登録"
+
+#: fruitmarket/apps/sales/templates/sales/fruitsales_list.html:44
+msgid "import with CSV"
+msgstr "CSV一括登録"
+
+#: fruitmarket/apps/sales/templates/sales/fruitsales_list.html:48
+msgid "upload CSV"
+msgstr "CSVアップロード"
+
+#: fruitmarket/apps/sales/templates/sales/fruitsales_stats.html:4
+msgid "sales statistics"
+msgstr "販売統計情報"
