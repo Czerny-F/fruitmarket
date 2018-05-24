@@ -1,4 +1,4 @@
-from django.contrib import admin
+# from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.urls import path, include
@@ -10,5 +10,5 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('products/', include('fruitmarket.apps.products.urls')),
     path('sales/', include('fruitmarket.apps.sales.urls')),
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
 ]
