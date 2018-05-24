@@ -13,5 +13,6 @@ urlpatterns = [
     ], 'fruits'))),
     path('stats/', include(([
         path('', views.FruitSalesStatsOverview.as_view(), name='overview'),
+        path('pandas/', views.FruitSalesPandasStats.as_view(), name='pandas'),
     ], 'stats'))),
 ]

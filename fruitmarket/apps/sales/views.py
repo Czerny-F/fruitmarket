@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import FruitSales
-from .services import FruitSalesStats
+from .services import FruitSalesStats, FruitSalesDataFrameStats
 from .forms import FruitSalesCSVUploadForm
 
 
@@ -86,3 +86,11 @@ class FruitSalesStatsOverview(generic.dates.MonthMixin,
                 'stats': self.stats_class(self.model.objects.daily(date)),
             }
             date = self.get_previous_day(date)
+
+
+class FruitSalesPandasStats(generic.TemplateView):
+    template_name = 'sales/fruitsales_dataframe_stats.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs.update({'stats': FruitSalesDataFrameStats()})
+        return super().get_context_data(**kwargs)
