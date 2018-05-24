@@ -35,6 +35,7 @@ class FruitSalesStats(object):
     def fruits(self) -> set:
         return set(obj.fruit for obj in self.queryset)
 
+    @property
     def total_amount(self) -> int:
         return self.queryset.total_amount()
 

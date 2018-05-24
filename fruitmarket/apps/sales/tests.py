@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from fruitmarket.apps.products.tests import create_fruits
 from .models import FruitSales
-from .services import FruitSalesStats, FruitSalesSet
+from .services import FruitSalesStats, FruitSalesSet, FruitSalesDataFrameStats
 from .forms import FruitSalesCSVUploadForm
 
 DIR = os.path.dirname(os.path.abspath(__file__))
@@ -95,21 +95,44 @@ class FruitSalesServiceTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         create_fruitsales(cls)
-        cls.qs = FruitSales.objects.all()
-        cls.stats = FruitSalesStats(cls.qs)
 
     def setUp(self):
         pass
 
     def test_total_amount(self):
-        self.assertEqual(self.stats.total_amount(), self.qs.total_amount())
+        qs = FruitSales.objects.all()
+        stats = FruitSalesStats(qs)
+        self.assertEqual(stats.total_amount, qs.total_amount())
 
     def test_breakdown(self):
-        with self.assertNumQueries(0):
-            breakdown = self.stats.breakdown()
+        qs = FruitSales.objects.all()
         with self.assertNumQueries(1):
-            for sub in breakdown:
+            stats = FruitSalesStats(qs)
+            for sub in stats.breakdown():
                 self.assertIsInstance(sub, FruitSalesSet)
+                self.assertIsInstance(sub.total_amount, int)
+
+    def test_pandas_wrapper(self):
+        qs = FruitSales.objects.all()
+        stats = FruitSalesDataFrameStats()
+        with self.assertNumQueries(2):
+            stats.dataframe
+        with self.assertNumQueries(1):
+            self.assertEqual(stats.gross, qs.total_amount())
+            for m in stats.monthly():
+                self.assertIsInstance(m.date, datetime.date)
+                self.assertIsInstance(m.total_amount, int)
+                for f in m.breakdown():
+                    self.assertIsInstance(f.fruit, str)
+                    self.assertIsInstance(f.total_amount, int)
+                    self.assertIsInstance(f.total_quantity, int)
+            for d in stats.daily():
+                self.assertIsInstance(d.date, datetime.date)
+                self.assertIsInstance(d.total_amount, int)
+                for f in d.breakdown():
+                    self.assertIsInstance(f.fruit, str)
+                    self.assertIsInstance(f.total_amount, int)
+                    self.assertIsInstance(f.total_quantity, int)
 
 
 class FruitSalesCSVUploadFormTests(TestCase):
