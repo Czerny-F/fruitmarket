@@ -5,6 +5,11 @@ from fruitmarket.core.models import EditableModel
 
 
 class Fruit(EditableModel):
+    """
+    果物マスタモデル
+
+    更新日時・登録日時降順のためindexあり
+    """
     name = models.CharField(_("name"), max_length=256, unique=True)
     unit_price = models.PositiveIntegerField(_("unit price"))
 

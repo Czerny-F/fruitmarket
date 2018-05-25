@@ -1,3 +1,7 @@
+"""
+果物マスタモデル操作用ビュー群であるためgeneric viewで構成
+登録・編集・削除において共通するattributeはFruitEditMixinでまとめて継承
+"""
 from django.views import generic
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
