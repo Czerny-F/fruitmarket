@@ -1,3 +1,6 @@
+"""
+ファイル検証用FormとCSVレコード検証用Formの2段構成
+"""
 import csv
 import codecs
 from django import forms
@@ -8,10 +11,24 @@ from .models import FruitSales
 
 
 class BaseCSVUploadForm(forms.Form):
+    """
+    汎用CSVファイル検証用Form
+
+    csv_form_classでレコード検証用Formを設定し使う
+
+    viewでの使う順番はModelFormと似たような感じで
+    construct→is_valid()→save()→imported/ignored/result
+    守られないとAssertionErrorを起こす
+    """
     file_ = forms.FileField()
     csv_form_class = None
 
     def clean_file_(self):
+        """
+        ファイル検証メソッド
+
+        file encodingはデフォルトのUTF-8のみ
+        """
         file_ = self.cleaned_data['file_']
         if file_.content_type != 'text/csv':
             raise forms.ValidationError(_("invalid file."))
@@ -37,6 +54,9 @@ class BaseCSVUploadForm(forms.Form):
 
     @property
     def result(self) -> str:
+        """
+        save()の後結果メッセージを返す
+        """
         assert hasattr(self, '_imported') and hasattr(self, '_ignored'), (
             'You must call `.save()` first.'
         )
@@ -48,6 +68,9 @@ class BaseCSVUploadForm(forms.Form):
                  }
 
     def save(self):
+        """
+        csv_formを利用し1行ずつ検証し各行の結果をimported/ignoredに分けて保存する
+        """
         assert hasattr(self, 'cleaned_data'), (
             'You must call `.is_valid()` first.'
         )
@@ -80,6 +103,9 @@ class BaseCSVUploadForm(forms.Form):
 
 
 class FruitSalesCSVForm(forms.ModelForm):
+    """
+    果物マスタモデルの入力を名称でさせるためModelChoiceField利用
+    """
     fruit = forms.ModelChoiceField(queryset=Fruit.objects.all(), to_field_name='name')
 
     class Meta:

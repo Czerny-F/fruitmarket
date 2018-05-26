@@ -10,6 +10,13 @@ from .managers import FruitSalesManager
 
 
 class FruitSales(EditableModel):
+    """
+    果物販売情報モデル
+
+    販売日時にindexあり
+    売り上げはフォーム登録時、自動計算のためpre_saveシグナル利用
+    カスタムマネージャ利用
+    """
     fruit = models.ForeignKey(Fruit, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField(_("quantity"))
     amount = models.PositiveIntegerField(_("amount"))

@@ -1,3 +1,8 @@
+"""
+統計処理のためのクラス群(Serviceレイヤ)
+
+FruitSalesSet/FruitSalesStatsはライブラリに依存しない
+"""
 from abc import ABC
 from typing import Iterator
 import pandas as pd
@@ -8,6 +13,9 @@ from .models import FruitSales
 
 
 class FruitSalesSet(object):
+    """
+    果物別内訳クラス
+    """
 
     def __init__(self, fruit, sales: list):
         self.fruit = fruit
@@ -23,12 +31,18 @@ class FruitSalesSet(object):
 
 
 class FruitSalesStats(object):
+    """
+    FruitSalesのQuerySetをもとに総売上と果物別内訳を作る
+    """
 
     def __init__(self, queryset: FruitSalesQuerySet):
         self._queryset = queryset
 
     @cached_property
     def queryset(self) -> FruitSalesQuerySet:
+        """
+        SQLクエリを減らすためselect_related()/cached_propertyを利用
+        """
         return self._queryset.select_related()
 
     @cached_property
@@ -46,6 +60,9 @@ class FruitSalesStats(object):
 
 
 class AbstractSalesDataFrameStats(ABC):
+    """
+    総売上・数量計算のため、pandasのDataFrameをラッピングする抽象クラス
+    """
 
     @cached_property
     def summed(self) -> pd.Series:
@@ -61,6 +78,10 @@ class AbstractSalesDataFrameStats(ABC):
 
 
 class FruitSalesDataFrameSet(AbstractSalesDataFrameStats):
+    """
+    果物別内訳用DataFrameラッパークラス
+    FruitSalesSetに対応するが、fruitは文字列型
+    """
 
     def __init__(self, fruit: str, dataframe: pd.DataFrame):
         self.fruit = fruit
@@ -68,6 +89,10 @@ class FruitSalesDataFrameSet(AbstractSalesDataFrameStats):
 
 
 class FruitSalesPeriodicStats(AbstractSalesDataFrameStats):
+    """
+    日別・月別のDataFrameラッパークラス
+    上記のFruitSalesStatsに対応するが、dateはpandasのdatetimeラッパーのTimestamp
+    """
     group_by = 'fruit'
     set_class = FruitSalesDataFrameSet
 
@@ -81,12 +106,21 @@ class FruitSalesPeriodicStats(AbstractSalesDataFrameStats):
 
 
 class FruitSalesDataFrameStats(AbstractSalesDataFrameStats):
+    """
+    果物販売情報DataFrameのラッパークラス
+
+    pandasを利用するためSQLクエリ1〜2回で統計処理ができる
+    """
     model = FruitSales
     date_field = 'sold_at'
     periodic_class = FruitSalesPeriodicStats
 
     @cached_property
     def dataframe(self) -> pd.DataFrame:
+        """
+        SQLクエリとDataFrame変換コストがあるためcached_propertyを利用
+        期間別処理が必要なためindexに設定し、timezoneがUTCになるため変換する
+        """
         df = self.model.objects.to_dataframe(index=self.date_field)
         return df.tz_convert(timezone.get_current_timezone_name())
 

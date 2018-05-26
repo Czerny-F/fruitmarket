@@ -10,12 +10,18 @@ from .forms import FruitSalesCSVUploadForm
 
 
 class FruitSalesEditMixin(object):
+    """
+    果物販売情報の登録・編集・削除のためのMixin
+    """
     model = FruitSales
     success_url = reverse_lazy('sales:fruits:list')
 
 
 @method_decorator(login_required, name='dispatch')
 class FruitSalesList(FruitSalesEditMixin, generic.edit.FormMixin, generic.ListView):
+    """
+    果物販売情報のList表示とCSV一括登録を同時に行うためFormMixinとListViewを利用
+    """
     form_class = FruitSalesCSVUploadForm
     queryset = FruitSales.objects.select_related()
 
@@ -56,6 +62,11 @@ class FruitSalesStatsOverview(generic.dates.MonthMixin,
                               generic.dates.DayMixin,
                               generic.dates.DateMixin,
                               generic.ListView):
+    """
+    ライブラリ依存なしの統計情報View
+    日付計算のためdates系の各Mixinを利用
+    日別・月別合わせて6つ以上のSQLクエリを使う
+    """
     model = FruitSales
     stats_class = FruitSalesStats
     date_field = 'sold_at'
@@ -90,6 +101,10 @@ class FruitSalesStatsOverview(generic.dates.MonthMixin,
 
 @method_decorator(login_required, name='dispatch')
 class FruitSalesPandasStats(generic.TemplateView):
+    """
+    pandasを利用した統計情報View
+    SQLクエリを減らせるが最新のレコードの日付が基準になる
+    """
     template_name = 'sales/fruitsales_dataframe_stats.html'
 
     def get_context_data(self, **kwargs):
